@@ -58,7 +58,7 @@ function removeCostumeFromDataList (targetItemToRemove) {
 
 function addCostumeToDataList(event, targetInputId) {
     // Find the form element that needs validation
-    let formElement = document.getElementById("costumesInputForm");
+    let formElement = document.getElementById("costumesInputForm"); //should be added at the end of code to save on processing time in larger projects.
 
     // Use the form element.checkValidity() method to save the result
     let isFormValid = formElement.checkValidity();
@@ -87,7 +87,7 @@ function addCostumeToDataList(event, targetInputId) {
     // Clear out the input field text
     targetTextInput.value = "";
 
-    // Focus on the text field to enable quick data entry
+    // Focus on the text field to enable quick data entry, pop up window.
     targetTextInput.focus();
 
     // Alert after submit - method 2
