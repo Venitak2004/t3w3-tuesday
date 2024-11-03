@@ -15,50 +15,88 @@ let dataArray = [
 
 let costumesContainer = document.getElementById("costumeContainer");
 
-
 function renderData() {
-
-    // create an unorder list tag
+    // Create an unordered list tag
     let costumesContainerList = document.createElement("ul");
-
-    // removes the existing content from the element.
+    // Removes the existing content from the element
     costumesContainer.innerText = "";
 
     dataArray.forEach((costume) => {
-
-        // verfiy what we are working with
+        // Verify what we are working with
         console.log(costume);
-   
-        // create the list element
+    
+        // Create the list element
         let newCostumeEntry = document.createElement("li");
-
-        // add the value to the HTML element
+        
+        // Add the value to the HTML element
         newCostumeEntry.innerText = costume;
-
-        // add a button to each entry to remove from the list
+    
+        // Add a button to each entry that removes it from the list
         let removeButton = document.createElement("button");
-
-        // add a placeholder value /name to the button
-        // removeButton.innerTest = "Remove" + costume;
+    
+        // Add a placeholder value/ name to the button
+        // removeButton.innerText = "Remove" + costume;
         removeButton.innerText = `Remove ${costume}`;
-
+    
         removeButton.onclick = (() => removeCostumeFromDataList(costume));
-
-        // add the element 'li' to the container you must attach/append it to the root element
+        // Add the element to the container
         costumesContainerList.appendChild(newCostumeEntry);
-
-        // add the element 'li' to the container you must attach/append it to the root element
+    
+        // Add the element to the container
         newCostumeEntry.appendChild(removeButton);
 
-});
-
-    // Add the container to the HTML page append the 'ul' to the HTML page
+    });
+    // Add the container to the HTML Page
     costumesContainer.appendChild(costumesContainerList);
 }
 
-function removeCostumeFromDataList (targetItemToRemove) {
 
-    // Create a replica of the dataArray and remove the item that gets removed.
+function removeCostumeFromDataList (targetItemToRemove) {
     dataArray = dataArray.filter((costume) => costume != targetItemToRemove);
     renderData();
 }
+
+function addCostumeToDataList(event, targetInputId) {
+    // Find the form element that needs validation
+    let formElement = document.getElementById("costumesInputForm");
+
+    // Use the form element.checkValidity() method to save the result
+    let isFormValid = formElement.checkValidity();
+
+    // Do a conditional based on the result
+    if (!isFormValid){
+        formElement.reportValidity();
+        return;
+    }
+
+    // Prevent the form from doing its default behaviour (refreshing the page)
+    event.preventDefault();
+    console.log("Add costume to the list function is running!");
+
+    // Find the input text field based on targetInputId
+    let targetTextInput = document.getElementById(targetInputId);
+
+    // Get the value from the field
+    console.log(targetTextInput.value);
+    // Append or push to the dataArray
+    dataArray.push(targetTextInput.value);
+
+    // Alert after submit - method 1
+    // alert("Submitted a new entry: " + targetTextInput.value);
+
+    // Clear out the input field text
+    targetTextInput.value = "";
+
+    // Focus on the text field to enable quick data entry
+    targetTextInput.focus();
+
+    // Alert after submit - method 2
+    alert("Submitted a new entry: " + dataArray[dataArray.length - 1]);
+
+    // renderData function call to update the page
+    renderData();
+}
+
+// Find the form from the event
+let formInputButton = document.getElementById("formInputButton");
+formInputButton.addEventListener("click", (event) => addCostumeToDataList(event, "costumeInputText"));
